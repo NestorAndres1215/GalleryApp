@@ -1,0 +1,15 @@
+/* App.css */
+
+main {
+  padding: 20px;
+  text-align: center;
+}
+
+main h1 {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #0078d4;
+  margin-bottom: 16px;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.1);
+  letter-spacing: 1px;
+}

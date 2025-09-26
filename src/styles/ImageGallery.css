@@ -1,0 +1,19 @@
+/* ImageGallery.css */
+
+.image-gallery {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  padding: 10px;
+}
+
+.image-gallery p {
+  font-size: 1rem;
+  margin-top: 12px;
+  text-align: center;
+}
+
+.image-gallery .error {
+  color: red;
+  font-weight: bold;
+}
