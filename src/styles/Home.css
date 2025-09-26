@@ -1,15 +1,188 @@
-/* App.css */
+/* Variables CSS consistentes con SearchBar */
+:root {
+  --primary-color: #6366f1;
+  --primary-hover: #4f46e5;
+  --primary-light: #818cf8;
+  --secondary-color: #ec4899;
+  --background-main: #f8fafc;
+  --background-form: #ffffff;
+  --border-color: #e2e8f0;
+  --text-color: #1e293b;
+  --text-light: #64748b;
+  --shadow-color: rgba(99, 102, 241, 0.1);
+  
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --border-radius: 12px;
+  --border-radius-lg: 16px;
+  --font-size-base: 16px;
+  --font-size-lg: 20px;
+  --font-size-xl: 24px;
+  --font-size-2xl: 32px;
+  
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-focus: 0 0 0 3px var(--shadow-color);
+}
 
+/* Estilos del main container */
 main {
-  padding: 20px;
-  text-align: center;
+  min-height: 100vh;
+  background: var(--background-main);
+  padding: var(--spacing-xl) var(--spacing-md);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+}
+
+/* Título principal con el mismo estilo del SearchBar */
+main h1 {
+    text-align: center;
+    font-size: var(--font-size-2xl);
+    font-weight: 700;
+    color: var(--text-color);
+    margin-bottom: var(--spacing-xl);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-md);
+    position: relative;
+
+    /* Gradiente similar al botón del SearchBar */
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+
+    /* Sombra de texto sutil */
+    filter: drop-shadow(0 2px 4px rgba(99, 102, 241, 0.1));
+
+    transition: var(--transition);
+
+    /* Cambia la fuente */
+    font-family: 'Poppins', 'Segoe UI', Arial, sans-serif;
+    letter-spacing: -0.5px;
+    text-transform: uppercase;
+    font-style: italic;
+}
+
+/* Efecto hover en el título */
+main h1:hover {
+  transform: translateY(-2px);
+  filter: drop-shadow(0 4px 8px rgba(99, 102, 241, 0.2));
+}
+
+/* Icono del título */
+main h1 svg {
+  font-size: var(--font-size-xl);
+  /* Mantiene el gradiente del texto */
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transition: var(--transition);
+}
+
+main h1:hover svg {
+  transform: scale(1.1) rotate(5deg);
+}
+
+/* Contenedor para centrar contenido */
+main > * {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Espaciado entre elementos */
+main > *:not(:last-child) {
+  margin-bottom: var(--spacing-lg);
+}
+
+/* Efecto de fondo con patrón sutil */
+main::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    radial-gradient(circle at 25% 25%, rgba(99, 102, 241, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 75% 75%, rgba(236, 72, 153, 0.05) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Animación sutil de entrada */
+main {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  main {
+    padding: var(--spacing-lg) var(--spacing-md);
+  }
+  
+  main h1 {
+    font-size: var(--font-size-xl);
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+  
+  main h1 svg {
+    font-size: var(--font-size-lg);
+  }
+}
+
+@media (max-width: 480px) {
+  main {
+    padding: var(--spacing-md) var(--spacing-sm);
+  }
+  
+  main h1 {
+    font-size: var(--font-size-lg);
+  }
+}
+
+/* Modo oscuro */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background-main: #0f172a;
+    --background-form: #1e293b;
+    --text-color: #f1f5f9;
+    --text-light: #94a3b8;
+    --border-color: #334155;
+  }
+  
+  main::before {
+    background-image: 
+      radial-gradient(circle at 25% 25%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 75% 75%, rgba(236, 72, 153, 0.1) 0%, transparent 50%);
+  }
+}
+
+/* Optimización de rendimiento */
+main {
+  will-change: transform;
+  transform: translateZ(0);
 }
 
 main h1 {
-  font-size: 2rem;
-  font-weight: bold;
-  color: #0078d4;
-  margin-bottom: 16px;
-  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.1);
-  letter-spacing: 1px;
+  will-change: transform, filter;
 }

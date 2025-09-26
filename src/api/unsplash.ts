@@ -10,7 +10,7 @@ if (!ACCESS_KEY) {
 export const fetchImages = async (
   query: string,
   page = 1,
-  perPage = 12
+  perPage = 30
 ): Promise<UnsplashSearchResponse> => {
   if (!ACCESS_KEY) throw new Error("Missing Unsplash access key (REACT_APP_UNSPLASH_ACCESS_KEY).");
 

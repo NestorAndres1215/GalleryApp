@@ -8,7 +8,7 @@ const ImageGallery: React.FC<{ query: string }> = ({ query }) => {
 
   return (
     <div>
-      {loading && <p>🔄 Cargando imágenes...</p>}
+      {loading && <p className="loading">🔄 Cargando imágenes...</p>}
       {error && <p className="error">{error}</p>}
 
       <div className="image-gallery">

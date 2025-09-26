@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import "../styles/SearchBar.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
 interface Props {
   onSearch: (q: string) => void;
@@ -7,25 +9,48 @@ interface Props {
 
 const SearchBar: React.FC<Props> = ({ onSearch }) => {
   const [value, setValue] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  const submit = (e: React.FormEvent) => {
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     const q = value.trim();
-    if (q) onSearch(q);
+    if (q) {
+      setIsLoading(true);
+      try {
+        await onSearch(q);
+      } finally {
+        setIsLoading(false);
+      }
+    }
   };
 
   return (
-    <form className="search-form" onSubmit={submit}>
+    <form className="search-form" onSubmit={submit} role="search">
+      <label htmlFor="search-input" className="visually-hidden">
+        Search images
+      </label>
       <input
         type="text"
+        id="search-input"
         className="search-input"
         value={value}
         onChange={(e) => setValue(e.target.value)}
-        placeholder="Busca imágenes (ej. cats, mountains)..."
+        placeholder="Search images (e.g., cats, mountains)..."
+        aria-describedby="search-hint"
+        disabled={isLoading}
       />
-      <button type="submit" className="search-button">
-        Buscar
+      <button
+        type="submit"
+        className="search-button"
+        disabled={isLoading}
+        aria-busy={isLoading}
+      >
+        <FontAwesomeIcon icon={faSearch} aria-hidden="true" />
+        {isLoading ? "Searching..." : "Search"}
       </button>
+      <span id="search-hint" className="visually-hidden">
+        Enter a search term like cats or mountains to find images.
+      </span>
     </form>
   );
 };
