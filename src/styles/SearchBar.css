@@ -1,33 +1,135 @@
-/* Variables CSS para consistencia */
-:root {
-  --primary-color: #6366f1;
-  --primary-hover: #4f46e5;
-  --primary-light: #818cf8;
-  --secondary-color: #ec4899;
-  --background-form: #ffffff;
-  --border-color: #e2e8f0;
-  --border-focus: #6366f1;
-  --text-color: #1e293b;
-  --text-light: #64748b;
-  --success-color: #10b981;
-  --shadow-color: rgba(99, 102, 241, 0.1);
-  
-  --spacing-sm: 8px;
-  --spacing-md: 16px;
-  --spacing-lg: 24px;
-  --border-radius: 12px;
-  --border-radius-lg: 16px;
-  --font-size-base: 16px;
-  --font-size-sm: 14px;
-  
-  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  --shadow-focus: 0 0 0 3px var(--shadow-color);
+/* SearchBar.css */
+.search-bar-container {
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
 }
 
-/* Clase para elementos visualmente ocultos pero accesibles */
+.search-bar-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: #ffffff;
+  border-radius: 50px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  height: 56px;
+}
+
+.search-bar-wrapper:focus-within {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+  border: 2px solid #667eea;
+}
+
+.search-icon {
+  position: absolute;
+  left: 1.2rem;
+  color: #888;
+  font-size: 1.1rem;
+  z-index: 2;
+  transition: color 0.2s ease;
+}
+
+.search-bar-wrapper:focus-within .search-icon {
+  color: #667eea;
+}
+
+.spin {
+  animation: spin 1s linear infinite;
+}
+
+.search-input {
+  flex: 1;
+  padding: 0 1.2rem 0 3.2rem;
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: #333;
+  background: transparent;
+  border: none;
+  outline: none;
+  height: 100%;
+  transition: all 0.2s ease;
+}
+
+.search-input::placeholder {
+  color: #aaa;
+  font-weight: 400;
+}
+
+.search-input:disabled {
+  background: transparent;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.search-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  margin: 4px 4px 4px 0;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+.search-button:hover:not(:disabled) {
+  transform: scale(1.08);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+}
+
+.search-button:active {
+  transform: scale(0.98);
+}
+
+.search-button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Animación de spinner */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .search-bar-wrapper {
+    height: 52px;
+  }
+
+  .search-input {
+    font-size: 1rem;
+    padding-left: 3rem;
+  }
+
+  .search-icon {
+    left: 1rem;
+    font-size: 1rem;
+  }
+
+  .search-button {
+    width: 44px;
+    height: 44px;
+  }
+}
+
+/* Accesibilidad */
 .visually-hidden {
   position: absolute;
   width: 1px;
@@ -38,240 +140,4 @@
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border: 0;
-}
-
-/* Formulario principal */
-.search-form {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-sm);
-  padding: var(--spacing-sm);
-  background: var(--background-form);
-  border: 2px solid var(--border-color);
-  border-radius: var(--border-radius-lg);
-  box-shadow: var(--shadow-md);
-  max-width: 600px;
-  margin: 0 auto var(--spacing-lg) auto;
-  transition: var(--transition);
-  position: relative;
-  overflow: hidden;
-}
-
-/* Efecto de brillo en hover */
-.search-form::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-  transition: left 0.6s ease;
-  pointer-events: none;
-}
-
-.search-form:hover::before {
-  left: 100%;
-}
-
-.search-form:hover {
-  border-color: var(--primary-light);
-  box-shadow: var(--shadow-lg), var(--shadow-focus);
-  transform: translateY(-2px);
-}
-
-.search-form:focus-within {
-  border-color: var(--border-focus);
-  box-shadow: var(--shadow-lg), var(--shadow-focus);
-  transform: translateY(-1px);
-}
-
-/* Campo de entrada */
-.search-input {
-  flex: 1;
-  padding: 16px 20px;
-  border: none;
-  outline: none;
-  border-radius: var(--border-radius);
-  font-size: var(--font-size-base);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
-  color: var(--text-color);
-  background: transparent;
-  transition: var(--transition);
-  font-weight: 500;
-  letter-spacing: 0.01em;
-}
-
-.search-input::placeholder {
-  color: var(--text-light);
-  font-weight: 400;
-  opacity: 0.8;
-}
-
-.search-input:focus {
-  color: var(--text-color);
-}
-
-.search-input:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-/* Botón de búsqueda mejorado */
-.search-button {
-  position: relative;
-  padding: 16px 24px;
-  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-  color: white;
-  border: none;
-  border-radius: var(--border-radius);
-  font-weight: 600;
-  font-size: var(--font-size-base);
-  font-family: inherit;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--spacing-sm);
-  transition: var(--transition);
-  box-shadow: var(--shadow-md);
-  min-width: 120px;
-  overflow: hidden;
-}
-
-/* Efecto de brillo en el botón */
-.search-button::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-  transition: left 0.5s ease;
-}
-
-.search-button:hover::before {
-  left: 100%;
-}
-
-.search-button:hover:not(:disabled) {
-  background: linear-gradient(135deg, var(--primary-hover), #be185d);
-  transform: translateY(-2px) scale(1.02);
-  box-shadow: var(--shadow-lg), 0 8px 25px rgba(99, 102, 241, 0.3);
-}
-
-.search-button:active:not(:disabled) {
-  transform: translateY(0) scale(0.98);
-  box-shadow: var(--shadow-sm);
-}
-
-.search-button:focus {
-  outline: none;
-  box-shadow: var(--shadow-lg), 0 0 0 3px rgba(99, 102, 241, 0.3);
-}
-
-.search-button:disabled {
-  background: linear-gradient(135deg, #94a3b8, #cbd5e1);
-  cursor: not-allowed;
-  transform: none;
-  box-shadow: var(--shadow-sm);
-}
-
-.search-button:disabled::before {
-  display: none;
-}
-
-/* Iconos del botón */
-.search-button svg {
-  width: 18px;
-  height: 18px;
-  transition: var(--transition);
-}
-
-.search-button:hover:not(:disabled) svg {
-  transform: scale(1.1);
-}
-
-/* Animación de carga */
-.search-button.loading {
-  background: linear-gradient(135deg, var(--text-light), #94a3b8);
-  cursor: wait;
-}
-
-.search-button.loading svg {
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-/* Estados de interacción mejorados */
-.search-form.loading {
-  border-color: var(--primary-light);
-  animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-  0% { opacity: 1; }
-  50% { opacity: 0.8; }
-  100% { opacity: 1; }
-}
-
-/* Responsive design */
-@media (max-width: 768px) {
-  .search-form {
-    max-width: 95%;
-    padding: 6px;
-    margin-bottom: var(--spacing-md);
-  }
-
-  .search-input {
-    padding: 14px 16px;
-    font-size: var(--font-size-sm);
-  }
-
-  .search-button {
-    padding: 14px 20px;
-    font-size: var(--font-size-sm);
-    min-width: 100px;
-  }
-}
-
-@media (max-width: 480px) {
-  .search-form {
-    flex-direction: column;
-    gap: var(--spacing-sm);
-    padding: var(--spacing-md);
-  }
-
-  .search-input {
-    width: 100%;
-    text-align: center;
-  }
-
-  .search-button {
-    width: 100%;
-    justify-content: center;
-  }
-}
-
-/* Modo oscuro */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background-form: #1e293b;
-    --border-color: #334155;
-    --text-color: #f1f5f9;
-    --text-light: #94a3b8;
-  }
-
-  .search-form {
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -2px rgba(0, 0, 0, 0.2);
-  }
-
-  .search-form:hover {
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2), var(--shadow-focus);
-  }
 }

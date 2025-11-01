@@ -8,32 +8,35 @@ export const useFetchImages = (query: string, delay = 500) => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!query) {
+    if (!query.trim()) {
       setImages([]);
       setError(null);
       return;
     }
 
-    let cancelled = false;
-    const t = setTimeout(() => {
+    const controller = new AbortController();
+    const timer = setTimeout(async () => {
       setLoading(true);
       setError(null);
 
-      fetchImages(query)
-        .then((data) => {
-          if (!cancelled) setImages(data.results);
-        })
-        .catch((err) => {
-          if (!cancelled) setError(err.message || "Error al obtener imágenes");
-        })
-        .finally(() => {
-          if (!cancelled) setLoading(false);
-        });
+      try {
+        const data = await fetchImages(query);
+        if (!controller.signal.aborted) {
+          setImages(data.results);
+        }
+      } catch (err: unknown) {
+        if (!controller.signal.aborted) {
+          setError(err instanceof Error ? err.message : "Error al obtener imágenes");
+          setImages([]);
+        }
+      } finally {
+        if (!controller.signal.aborted) setLoading(false);
+      }
     }, delay);
 
     return () => {
-      cancelled = true;
-      clearTimeout(t);
+      controller.abort();
+      clearTimeout(timer);
     };
   }, [query, delay]);
 
