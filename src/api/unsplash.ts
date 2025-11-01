@@ -3,8 +3,7 @@ import type { UnsplashSearchResponse } from "../types/unsplash";
 const ACCESS_KEY = import.meta.env.VITE_UNSPLASH_ACCESS_KEY as string;
 
 if (!ACCESS_KEY) {
-  // evita usar la app sin key; útil en dev
-  console.warn("REACT_APP_UNSPLASH_ACCESS_KEY no está definida en .env");
+  console.warn("VITE_UNSPLASH_ACCESS_KEY no está definida en .env");
 }
 
 export const fetchImages = async (
@@ -12,7 +11,8 @@ export const fetchImages = async (
   page = 1,
   perPage = 30
 ): Promise<UnsplashSearchResponse> => {
-  if (!ACCESS_KEY) throw new Error("Missing Unsplash access key (REACT_APP_UNSPLASH_ACCESS_KEY).");
+  if (!ACCESS_KEY) throw new Error("Falta la clave de acceso de Unsplash (VITE_UNSPLASH_ACCESS_KEY).");
+  if (!query.trim()) throw new Error("El parámetro 'query' no puede estar vacío.");
 
   const url = new URL("https://api.unsplash.com/search/photos");
   url.searchParams.set("query", query);
@@ -27,9 +27,8 @@ export const fetchImages = async (
 
   if (!res.ok) {
     const text = await res.text();
-    throw new Error(`Unsplash error: ${res.status} - ${text}`);
+    throw new Error(`Error Unsplash: ${res.status} - ${text}`);
   }
 
-  const data = await res.json();
-  return data as UnsplashSearchResponse;
+  return await res.json() as UnsplashSearchResponse;
 };
